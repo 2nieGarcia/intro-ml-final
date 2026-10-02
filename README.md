@@ -1,6 +1,6 @@
 # Pre-lab CKD Risk Screening
 
-Final group project for our Machine Learning course. The goal is a screening model that estimates a person's risk of chronic kidney disease (CKD) using only information available before any lab test, and recommends whether they should be referred for kidney function testing.
+Final project for my Machine Learning course. The goal is a screening model that estimates a person's risk of chronic kidney disease (CKD) using only information available before any lab test, and recommends whether they should be referred for kidney function testing.
 
 ## Background
 
@@ -14,7 +14,7 @@ This project only uses information a health worker can collect without a lab: ag
 CKD is labeled from lab results: eGFR below 60 mL/min/1.73m2 (CKD-EPI 2021 equation, without race) or urine albumin-to-creatinine ratio of 30 mg/g or higher. These lab values are only used to create the label. They are never given to the model as inputs.
 
 **Second dataset: UCI Chronic Kidney Disease (400 patients).**
-Used to show where the high accuracy in the literature comes from. We reproduce the reported result, then remove features in groups and measure how much performance drops.
+Used to show where the high accuracy in the literature comes from. I reproduce the reported result, then remove features in groups and measure how much performance drops.
 
 Feature groups:
 
@@ -24,7 +24,7 @@ Feature groups:
 | 2. Consequential | Effects of kidney disease that is already present | hemoglobin, packed cell volume, red blood cell count, pedal edema, appetite, anemia |
 | 3. Antecedent | Known before any kidney test | age, sex, hypertension, diabetes, BMI, smoking, cardiovascular disease |
 
-The tier assignments are written down and justified in `documentation/` before any modeling is done.
+I wrote down and justified the tier assignments in `documentation/preregistration.md` before doing any modeling.
 
 **Models compared:** Logistic Regression, Random Forest, and Gradient Boosting (scikit-learn). All three use the same train/test split, preprocessing pipeline, cross-validation folds and metric.
 
