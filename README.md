@@ -72,7 +72,19 @@ pip install -r requirements.txt
 
 ## Status
 
-Work in progress. Data download, EDA, modeling and the Streamlit app are not done yet. This README will be updated as each part is finished.
+Work in progress. This README will be updated as each part is finished.
+
+| Part | Status |
+|---|---|
+| Pre-registration (`documentation/preregistration.md`) | done |
+| Data download (`python src/download_data.py`) | done |
+| NHANES EDA (`notebooks/01_nhanes_eda.ipynb`) | done |
+| UCI tier ablation | not started |
+| NHANES model comparison | not started |
+| Streamlit app | not started |
+| Paper | not started |
+
+The processed NHANES dataset and its data dictionary are in `data/processed/nhanes_cohort.csv` and `documentation/data_dictionary.md`.
 
 ## Data sources
 
