@@ -1,0 +1,4 @@
+,f2,recall,precision,specificity,f1,accuracy,roc_auc,pr_auc,brier
+Random Forest,0.586,0.864,0.256,0.504,0.395,0.563,0.773,0.407,0.183
+Refer everyone,0.497,1.0,0.165,0.0,0.283,0.165,,,
+Risk-factor rule,0.583,0.852,0.257,0.515,0.395,0.57,,,

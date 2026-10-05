@@ -1,0 +1,141 @@
+{
+  "model": "Random Forest",
+  "hyperparameters": {
+    "max_depth": null,
+    "min_samples_leaf": 20
+  },
+  "threshold": 0.32021933003383785,
+  "features": [
+    "age",
+    "bmi",
+    "waist",
+    "sbp",
+    "dbp",
+    "female",
+    "told_htn",
+    "bp_meds",
+    "high_chol",
+    "any_cvd",
+    "fam_diabetes",
+    "diabetes",
+    "smoking"
+  ],
+  "numeric_features": [
+    "age",
+    "bmi",
+    "waist",
+    "sbp",
+    "dbp"
+  ],
+  "binary_features": [
+    "female",
+    "told_htn",
+    "bp_meds",
+    "high_chol",
+    "any_cvd",
+    "fam_diabetes"
+  ],
+  "categorical_features": [
+    "diabetes",
+    "smoking"
+  ],
+  "training_rows": 5890,
+  "training_prevalence": 0.16536502546689305,
+  "random_state": 42,
+  "sklearn_version": "1.9.1",
+  "cv_mean": {
+    "f2": 0.5797414321943706,
+    "recall": 0.8193391488236849,
+    "precision": 0.26850998561434103,
+    "specificity": 0.5539236119726405,
+    "f1": 0.4038264270833273,
+    "accuracy": 0.5977928692699491,
+    "roc_auc": 0.769620669309573,
+    "pr_auc": 0.4191323973627089,
+    "brier": 0.18302460839495086
+  },
+  "cv_sd": {
+    "f2": 0.014025764456510915,
+    "recall": 0.02521939424374347,
+    "precision": 0.020995795993368222,
+    "specificity": 0.05908628140778287,
+    "f1": 0.021785846457737373,
+    "accuracy": 0.045936201235564425,
+    "roc_auc": 0.011642226586521233,
+    "pr_auc": 0.018655578890045432,
+    "brier": 0.004392596033773168
+  },
+  "test": {
+    "f2": 0.5859375,
+    "recall": 0.8641975308641975,
+    "precision": 0.25609756097560976,
+    "specificity": 0.5040650406504065,
+    "f1": 0.3951081843838194,
+    "accuracy": 0.5634758995247794,
+    "roc_auc": 0.7734015858677105,
+    "pr_auc": 0.4066634799984491,
+    "brier": 0.18262505832502407
+  },
+  "risk_table": [
+    {
+      "low": 0.0429,
+      "high": 0.155,
+      "people": 589,
+      "observed_rate": 0.0374
+    },
+    {
+      "low": 0.1551,
+      "high": 0.2035,
+      "people": 589,
+      "observed_rate": 0.0458
+    },
+    {
+      "low": 0.2035,
+      "high": 0.2517,
+      "people": 589,
+      "observed_rate": 0.0475
+    },
+    {
+      "low": 0.2518,
+      "high": 0.3026,
+      "people": 589,
+      "observed_rate": 0.0662
+    },
+    {
+      "low": 0.3026,
+      "high": 0.3647,
+      "people": 589,
+      "observed_rate": 0.1104
+    },
+    {
+      "low": 0.3648,
+      "high": 0.4418,
+      "people": 589,
+      "observed_rate": 0.1409
+    },
+    {
+      "low": 0.4418,
+      "high": 0.5302,
+      "people": 589,
+      "observed_rate": 0.1443
+    },
+    {
+      "low": 0.5302,
+      "high": 0.6298,
+      "people": 589,
+      "observed_rate": 0.2496
+    },
+    {
+      "low": 0.6298,
+      "high": 0.7196,
+      "people": 589,
+      "observed_rate": 0.3107
+    },
+    {
+      "low": 0.7197,
+      "high": 0.9009,
+      "people": 589,
+      "observed_rate": 0.5008
+    }
+  ]
+}
