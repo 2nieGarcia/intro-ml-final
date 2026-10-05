@@ -54,7 +54,7 @@ src/screening.py               Input validation and prediction used by the app
 src/plot_style.py              Chart colors and fonts
 models/                        Saved pipeline, model card and result tables
 tests/                         Automated tests (pytest)
-documentation/                 Pre-registration, data dictionary, this document, figures
+documentation/                 Pre-registration, data dictionary, this document, figures, screenshots
 paper/                         IMRaD paper (DOCX and PDF)
 ```
 
@@ -140,3 +140,15 @@ BMI is calculated from weight and height, and rejected if the result is outside 
 | Warning about an unpickling version mismatch | Install the exact versions in `requirements.txt`; the model was saved with the scikit-learn version listed in `models/model_card.json` |
 | `FileNotFoundError` for `nhanes_cohort.csv` | Run notebook 01 first |
 | Data download fails | Check the internet connection. The files are also already in `data/original/`. |
+
+## 10. Screenshots
+
+All screenshots are in `documentation/screenshots/`. They were taken from the app running locally with the five sample patients in Appendix B of the paper.
+
+| File | What it shows |
+|---|---|
+| app_01_refer_result.png | One patient: a valid input with a referral recommendation |
+| app_02_invalid_input.png | One patient: an out-of-range age and a diastolic pressure above systolic are rejected with a message |
+| app_03_csv_upload.png | Upload a CSV: row 5 is skipped with the reason, the other rows are screened. The About the model panel is open. |
+| app_04_csv_results_columns.png | Upload a CSV: the result columns of the same table |
+| app_05_inputs_and_units.png | Inputs and units tab |

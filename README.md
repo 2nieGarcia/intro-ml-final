@@ -55,7 +55,7 @@ notebooks/        01 NHANES EDA, 02 UCI ablation, 03 NHANES modeling
 src/              Reusable code: data download, cohort and label, modeling, input validation
 models/           Saved pipeline, model card and result tables
 tests/            Automated tests (pytest)
-documentation/    Pre-registration, data dictionary, technical documentation, figures
+documentation/    Pre-registration, data dictionary, technical documentation, figures, app screenshots
 paper/            IMRaD paper (DOCX and PDF)
 requirements.txt  Packages needed to run the app (pinned)
 requirements-dev.txt  Extra packages for tests and rebuilding notebooks and documents
