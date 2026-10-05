@@ -162,7 +162,22 @@ I will report the results whether or not these expectations hold.
 
 ## 8. Changes after this commit
 
-None yet.
+No change was made to the research questions, label, tiers, features, inclusion rules, split,
+metric, models, threshold tuning, or selection rule. Decisions that the plan left open, and
+data problems found later, are recorded here.
+
+- 2 October 2026, NHANES EDA: imputation is median (numeric) and most common answer
+  (yes/no and categorical), with no "was missing" indicator columns. Reason: missing waist and
+  BMI are linked to CKD in NHANES for a reason that would not apply in the app
+  (`notebooks/01_nhanes_eda.ipynb`, section 13).
+- 5 October 2026, hyperparameter grids: the grids were not part of the pre-registration. They are
+  fixed in `src/modeling.make_models` and are the same for both datasets.
+- 5 October 2026, UCI cleaning: three impossible lab values (one sodium of 4.5 mEq/L and two
+  potassium values of 39 and 47 mEq/L) were set to missing (`notebooks/02_uci_ablation.ipynb`,
+  section 2.1).
+- 5 October 2026, app output: because `class_weight="balanced"` makes raw scores higher than the
+  observed risk, the app shows the observed CKD rate among training patients with similar scores
+  instead of the raw score as a percentage. This does not change the model or its evaluation.
 
 ## References
 
