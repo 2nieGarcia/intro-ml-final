@@ -30,18 +30,35 @@ I wrote down and justified the tier assignments in `documentation/preregistratio
 
 **Primary metric:** F2 score for the CKD class. Missing a CKD patient is much worse than sending a healthy person for one extra blood test, so recall is weighted more than precision.
 
+## Results
+
+| | F2 (primary) | Recall | Specificity | ROC-AUC |
+|---|---|---|---|---|
+| Random Forest, 5-fold CV (mean) | 0.580 | 0.819 | 0.554 | 0.770 |
+| Random Forest, test set (run once) | 0.586 | 0.864 | 0.504 | 0.773 |
+| Risk-factor rule, test set | 0.583 | 0.852 | 0.515 | - |
+| Refer everyone, test set | 0.497 | 1.000 | 0.000 | - |
+
+- All three models reached almost the same cross-validation F2 (0.578 to 0.580). Random Forest was selected by the pre-registered tie-break rule.
+- With only pre-lab information, the model performs about the same as a simple rule (refer if diabetes, hypertension, heart disease or age 60+). Its advantage is a graded score: the top-scored tenth of patients had CKD three times as often as average.
+- On UCI, the same three algorithms reach about 99% accuracy with all features, but with Tier 3 features only, F2 is no better than referring everyone (0.89 to 0.90) and specificity falls to 0.21 to 0.44.
+
+Full results are in the notebooks and in `paper/`.
+
 ## Folder structure
 
 ```
-app/              Streamlit app
-data/original/    Original datasets and source notes
-data/processed/   Cleaned data
-notebooks/        EDA and model development notebooks
-src/              Reusable preprocessing and modeling code
-models/           Saved final model pipeline
-documentation/    Technical documentation and screenshots
-paper/            Final paper (DOCX and PDF)
-requirements.txt  Python dependencies
+app/              Streamlit app (streamlit_app.py)
+data/original/    Original NHANES and UCI files, with SOURCE.md
+data/processed/   nhanes_cohort.csv (cohort, label, features, train/test split)
+notebooks/        01 NHANES EDA, 02 UCI ablation, 03 NHANES modeling
+src/              Reusable code: data download, cohort and label, modeling, input validation
+models/           Saved pipeline, model card and result tables
+tests/            Automated tests (pytest)
+documentation/    Pre-registration, data dictionary, technical documentation, figures
+paper/            IMRaD paper (DOCX and PDF)
+requirements.txt  Packages needed to run the app (pinned)
+requirements-dev.txt  Extra packages for tests and rebuilding notebooks and documents
 ```
 
 ## Setup
@@ -55,7 +72,7 @@ git clone https://github.com/2nieGarcia/intro-ml-final.git
 cd intro-ml-final
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 If activation fails with "running scripts is disabled", run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once and try again.
@@ -67,24 +84,34 @@ git clone https://github.com/2nieGarcia/intro-ml-final.git
 cd intro-ml-final
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
-## Status
+Use `requirements.txt` instead if you only need the app.
 
-Work in progress. This README will be updated as each part is finished.
+## Running
 
-| Part | Status |
+| Task | Command (from the project root) |
 |---|---|
-| Pre-registration (`documentation/preregistration.md`) | done |
-| Data download (`python src/download_data.py`) | done |
-| NHANES EDA (`notebooks/01_nhanes_eda.ipynb`) | done |
-| UCI tier ablation | not started |
-| NHANES model comparison | not started |
-| Streamlit app | not started |
-| Paper | not started |
+| Run the app | `streamlit run app/streamlit_app.py` |
+| Run the tests | `python -m pytest` |
+| Download the original data again | `python src/download_data.py` |
+| Reproduce the results | run the notebooks in order: 01, 02, 03 |
 
-The processed NHANES dataset and its data dictionary are in `data/processed/nhanes_cohort.csv` and `documentation/data_dictionary.md`.
+Deployed app: ______________________ (Streamlit Community Cloud URL)
+
+## Using the app
+
+Enter one patient in the form, or upload a CSV for several (a template can be downloaded in the app). The app shows a referral recommendation, the screening score against the referral threshold, and the share of training patients with a similar score who had CKD. The "Inputs and units" tab lists every field and its accepted range. Invalid or impossible inputs are rejected with a message instead of a prediction.
+
+The full input format, application guide and troubleshooting notes are in `documentation/technical_documentation.md`.
+
+## Limitations
+
+- Trained on US adults (NHANES). Not validated on Filipino patients.
+- The CKD label comes from a single lab measurement; the clinical definition needs 3 months.
+- The model misses many younger adults with CKD and many albuminuria-only cases. A "no referral" result does not rule out CKD.
+- It is a screening aid only. It does not diagnose CKD.
 
 ## Data sources
 
