@@ -39,6 +39,7 @@ Use `requirements.txt` instead of `requirements-dev.txt` if you only want to run
 
 ```
 app/streamlit_app.py           Streamlit app
+.streamlit/config.toml         App theme (colors and font)
 data/original/nhanes/          10 original NHANES files (.xpt)
 data/original/uci/             Original UCI CKD file (.csv)
 data/original/SOURCE.md        Source, license and download notes

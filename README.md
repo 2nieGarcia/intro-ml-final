@@ -49,6 +49,7 @@ Full results are in the notebooks and in `paper/`.
 
 ```
 app/              Streamlit app (streamlit_app.py)
+.streamlit/       App theme (config.toml)
 data/original/    Original NHANES and UCI files, with SOURCE.md
 data/processed/   nhanes_cohort.csv (cohort, label, features, train/test split)
 notebooks/        01 NHANES EDA, 02 UCI ablation, 03 NHANES modeling

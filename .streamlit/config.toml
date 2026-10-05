@@ -1,0 +1,32 @@
+# Look of the app. Streamlit reads this file automatically, locally and on Streamlit Community Cloud.
+
+[theme]
+base = "light"
+# Atkinson Hyperlegible was designed to stay readable for people with low vision
+font = "Atkinson Hyperlegible Next:https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&display=swap, sans-serif"
+headingFontWeights = [700, 650, 600]
+baseFontSize = 16
+baseRadius = "medium"
+buttonRadius = "medium"
+
+# One accent (deep teal) on warm neutral backgrounds
+primaryColor = "#1D6B5F"
+backgroundColor = "#F7F6F2"
+secondaryBackgroundColor = "#ECEAE3"
+textColor = "#1E2B2A"
+borderColor = "#D6D3C8"
+showWidgetBorder = true
+linkColor = "#1D6B5F"
+
+# Colors behind st.error, st.warning, st.success and st.info
+redColor = "#B5432F"
+yellowColor = "#A86A12"
+greenColor = "#2E7D4F"
+blueColor = "#2F6690"
+
+[client]
+# Hides the Deploy button and developer menu from people using the app
+toolbarMode = "viewer"
+
+[browser]
+gatherUsageStats = false

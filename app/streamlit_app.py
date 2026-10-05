@@ -25,7 +25,31 @@ DIABETES_CHOICES = {"No": "no", "Borderline / prediabetes": "borderline", "Yes":
 SMOKING_CHOICES = {"Never (fewer than 100 cigarettes in life)": "never", "Former": "former",
                    "Current": "current", "Don't know": "dont_know"}
 
-st.set_page_config(page_title="Pre-lab CKD screening", layout="centered")
+# Small style additions that the theme in .streamlit/config.toml cannot set
+STYLE = """
+<style>
+/* keep text lines a readable length */
+.block-container p, .block-container li { max-width: 68ch; }
+/* numbers line up when they change */
+[data-testid="stMetricValue"] { font-variant-numeric: tabular-nums; }
+::selection { background: #CFE3DE; color: #1E2B2A; }
+
+/* score bar under the result */
+.score-bar { position: relative; height: 0.75rem; margin: 0.25rem 0 0.4rem;
+             background: #E3E0D7; border-radius: 999px; }
+.score-fill { position: absolute; inset: 0 auto 0 0; border-radius: 999px; }
+.score-fill.refer { background: #A86A12; }
+.score-fill.clear { background: #2E7D4F; }
+.score-threshold { position: absolute; top: -0.3rem; bottom: -0.3rem; width: 2px; background: #1E2B2A; }
+.score-labels { position: relative; height: 1.3rem; margin-bottom: 0.75rem; font-size: 0.85rem; color: #5A6664;
+                font-variant-numeric: tabular-nums; }
+.score-labels span { position: absolute; top: 0; white-space: nowrap; }
+.score-labels .threshold-label { transform: translateX(-50%); color: #1E2B2A; }
+</style>
+"""
+
+st.set_page_config(page_title="Pre-lab CKD screening", page_icon=":material/nephrology:", layout="centered")
+st.markdown(STYLE, unsafe_allow_html=True)
 
 
 @st.cache_resource
@@ -42,21 +66,35 @@ except Exception as error:  # the app cannot do anything without the model, so s
     st.stop()
 
 
+def score_bar(score, threshold, refer):
+    """Shows where the score sits between 0 and 1, with a line at the referral threshold."""
+    fill_class = "refer" if refer else "clear"
+    st.markdown(
+        f'<div class="score-bar" role="img" aria-label="Score {score:.2f}, referral threshold {threshold:.2f}">'
+        f'<div class="score-fill {fill_class}" style="width: {score:.0%}"></div>'
+        f'<div class="score-threshold" style="left: {threshold:.0%}"></div></div>'
+        f'<div class="score-labels"><span style="left: 0">0</span>'
+        f'<span class="threshold-label" style="left: {threshold:.0%}">referral threshold {threshold:.2f}</span>'
+        f'<span style="right: 0">1</span></div>',
+        unsafe_allow_html=True,
+    )
+
+
 def show_result(result, notes):
     if result["refer"]:
         st.warning("**Refer for kidney testing.** Request a serum creatinine (for eGFR) and a urine "
-                   "albumin-to-creatinine ratio.")
+                   "albumin-to-creatinine ratio.", icon=":material/assignment_late:")
     else:
         st.success("**No referral indicated by this screen.** Screen again at the next routine visit, "
-                   "or sooner if their health changes.")
+                   "or sooner if their health changes.", icon=":material/task_alt:")
     left, right = st.columns(2)
-    left.metric("Screening score", f"{result['score']:.2f}", f"referral threshold {card['threshold']:.2f}",
-                delta_color="off")
+    left.metric("Screening score", f"{result['score']:.2f}")
     right.metric("Similar patients with CKD", f"{result['observed_rate']:.0%}")
+    score_bar(result["score"], card["threshold"], result["refer"])
     st.caption("The screening score is not a probability. The second number is the share of patients in the "
                "training data with a similar score who were found to have CKD.")
     for note in notes:
-        st.info(note)
+        st.info(note, icon=":material/info:")
 
 
 st.title("Pre-lab CKD risk screening")
@@ -67,7 +105,7 @@ st.write(
 )
 st.caption("This is a screening aid, not a diagnosis. CKD can only be confirmed with laboratory tests.")
 
-with st.expander("About the model"):
+with st.expander("About the model", icon=":material/model_training:"):
     cv, test = card["cv_mean"], card["test"]
     st.markdown(
         f"- **Model:** {card['model']} with a referral threshold of {card['threshold']:.2f}\n"
@@ -84,10 +122,12 @@ with st.expander("About the model"):
         "A 'no referral' result does not rule out CKD."
     )
 
-form_tab, csv_tab, help_tab = st.tabs(["One patient", "Upload a CSV", "Inputs and units"])
+form_tab, csv_tab, help_tab = st.tabs([":material/person: One patient", ":material/upload_file: Upload a CSV",
+                                       ":material/straighten: Inputs and units"])
 
 with form_tab:
     with st.form("patient"):
+        st.markdown("##### Measurements")
         left, right = st.columns(2)
         age = left.number_input("Age (years)", value=None, step=1, key="age")
         sex = right.selectbox("Sex", ["Female", "Male"], index=None, key="sex")
@@ -96,7 +136,8 @@ with form_tab:
         sbp = left.number_input("Systolic blood pressure (mmHg)", value=None, step=1, key="sbp")
         dbp = right.number_input("Diastolic blood pressure (mmHg)", value=None, step=1, key="dbp")
         waist = left.number_input("Waist circumference (cm), optional", value=None, step=0.5, key="waist")
-        st.divider()
+
+        st.markdown("##### Health history")
         left, right = st.columns(2)
         told_htn = left.selectbox("Ever told they have high blood pressure?", list(YES_NO_CHOICES), index=None, key="told_htn")
         bp_meds = right.selectbox("Taking blood pressure medicine now?", list(YES_NO_CHOICES), index=None, key="bp_meds")
@@ -105,7 +146,8 @@ with form_tab:
         high_chol = left.selectbox("Ever told they have high cholesterol?", list(YES_NO_CHOICES), index=None, key="high_chol")
         fam_diabetes = right.selectbox("Parent, brother or sister with diabetes?", list(YES_NO_CHOICES), index=None, key="fam_diabetes")
         smoking = left.selectbox("Smoking", list(SMOKING_CHOICES), index=None, key="smoking")
-        submitted = st.form_submit_button("Screen this patient", type="primary")
+        st.caption("Questions left empty count as \"Don't know\".")
+        submitted = st.form_submit_button("Screen this patient", type="primary", icon=":material/arrow_forward:")
 
     if submitted:
         record = {
@@ -118,7 +160,8 @@ with form_tab:
         }
         features, errors, notes = screening.validate_patient(record)
         if errors:
-            st.error("Please fix the following before screening:\n\n" + "\n".join(f"- {e}" for e in errors))
+            st.error("Please fix the following before screening:\n\n" + "\n".join(f"- {e}" for e in errors),
+                     icon=":material/error:")
         else:
             result = screening.predict(model, card, features).iloc[0]
             show_result(result, notes)
@@ -133,7 +176,8 @@ with csv_tab:
          "told_htn": "no", "bp_meds": "no", "high_chol": "dont_know", "any_cvd": "no", "fam_diabetes": "no",
          "diabetes": "no", "smoking": "current"},
     ])[screening.INPUT_COLUMNS]
-    st.download_button("Download CSV template", template.to_csv(index=False), "screening_template.csv", "text/csv")
+    st.download_button("Download CSV template", template.to_csv(index=False), "screening_template.csv", "text/csv",
+                       icon=":material/download:")
 
     upload = st.file_uploader("Upload a CSV file", type="csv")
     if upload is not None:
@@ -141,19 +185,37 @@ with csv_tab:
             table = pd.read_csv(upload)
             features, problems = screening.validate_csv(table)
         except Exception as error:
-            st.error(f"The file could not be read: {error}")
+            st.error(f"The file could not be read: {error}", icon=":material/error:")
         else:
-            for row_number, errors in problems:
-                st.error(f"Row {row_number} was skipped: " + " ".join(errors))
+            if problems:
+                st.error("These rows were skipped:\n\n"
+                         + "\n".join(f"- Row {row_number}: " + " ".join(errors) for row_number, errors in problems),
+                         icon=":material/error:")
             if len(features):
                 results = screening.predict(model, card, features)
-                output = table.copy()
-                output.index = range(1, len(output) + 1)
-                output = output.join(results)
-                output["recommendation"] = output["refer"].map({True: "refer for kidney testing", False: "no referral"})
-                st.write(f"Screened {len(results)} of {len(table)} rows. {int(results['refer'].sum())} recommended for referral.")
-                st.dataframe(output)
-                st.download_button("Download results", output.to_csv(index_label="row"), "screening_results.csv", "text/csv")
+                results["recommendation"] = results["refer"].map({True: "refer for kidney testing",
+                                                                  False: "no referral"})
+                # results first, then what was uploaded, so the answer is visible without scrolling sideways
+                inputs = table.copy()
+                inputs.index = range(1, len(inputs) + 1)
+                output = results[["recommendation", "score", "observed_rate"]].join(inputs, how="right")
+                output["recommendation"] = output["recommendation"].fillna("skipped, see the message above")
+                output["observed_rate"] = (output["observed_rate"] * 100).round()
+                output = output.rename(columns={"observed_rate": "similar_with_ckd_percent"})
+
+                screened, referred = len(results), int(results["refer"].sum())
+                left, middle, right = st.columns(3)
+                left.metric("Rows screened", f"{screened} of {len(table)}")
+                middle.metric("Refer for testing", referred)
+                right.metric("No referral", screened - referred)
+                st.dataframe(output, column_config={
+                    "recommendation": st.column_config.TextColumn("Recommendation"),
+                    "score": st.column_config.NumberColumn("Score", format="%.2f"),
+                    "similar_with_ckd_percent": st.column_config.NumberColumn("Similar patients with CKD",
+                                                                              format="%.0f%%"),
+                })
+                st.download_button("Download results", output.to_csv(index_label="row"), "screening_results.csv",
+                                   "text/csv", icon=":material/download:")
 
 with help_tab:
     st.markdown("""
