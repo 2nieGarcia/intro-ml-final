@@ -1,0 +1,5 @@
+feature set,selected model,f2,recall,precision,specificity,f1,accuracy,roc_auc,pr_auc
+All features,Logistic Regression,0.984,0.98,1.0,1.0,0.99,0.988,1.0,1.0
+Without Tier 1,Logistic Regression,0.948,0.94,0.979,0.967,0.959,0.95,0.969,0.986
+Without Tier 1 and 2,Random Forest,0.98,1.0,0.909,0.833,0.952,0.938,0.995,0.997
+Tier 3 only,Logistic Regression,0.897,0.98,0.671,0.2,0.797,0.688,0.899,0.955

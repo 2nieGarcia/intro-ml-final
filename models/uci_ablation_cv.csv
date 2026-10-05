@@ -1,0 +1,13 @@
+feature set,model,F2,ROC-AUC,accuracy,recall,specificity
+All features,Logistic Regression,0.997 +/- 0.007,1.000 +/- 0.000,0.991 +/- 0.021,1.000,0.975
+All features,Random Forest,0.995 +/- 0.005,0.999 +/- 0.001,0.984 +/- 0.016,1.000,0.958
+All features,Gradient Boosting,0.995 +/- 0.009,1.000 +/- 0.001,0.994 +/- 0.009,0.995,0.992
+Without Tier 1,Logistic Regression,0.984 +/- 0.013,0.995 +/- 0.006,0.969 +/- 0.031,0.990,0.933
+Without Tier 1,Random Forest,0.979 +/- 0.007,0.994 +/- 0.006,0.972 +/- 0.013,0.980,0.958
+Without Tier 1,Gradient Boosting,0.981 +/- 0.010,0.992 +/- 0.006,0.969 +/- 0.016,0.985,0.942
+Without Tier 1 and 2,Logistic Regression,0.907 +/- 0.019,0.929 +/- 0.031,0.744 +/- 0.041,0.970,0.367
+Without Tier 1 and 2,Random Forest,0.950 +/- 0.028,0.980 +/- 0.018,0.906 +/- 0.062,0.965,0.808
+Without Tier 1 and 2,Gradient Boosting,0.953 +/- 0.030,0.975 +/- 0.021,0.938 +/- 0.029,0.955,0.908
+Tier 3 only,Logistic Regression,0.898 +/- 0.018,0.897 +/- 0.036,0.691 +/- 0.051,0.980,0.208
+Tier 3 only,Random Forest,0.894 +/- 0.037,0.936 +/- 0.026,0.756 +/- 0.058,0.945,0.442
+Tier 3 only,Gradient Boosting,0.902 +/- 0.040,0.922 +/- 0.048,0.738 +/- 0.110,0.965,0.358
