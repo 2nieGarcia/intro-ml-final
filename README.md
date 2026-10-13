@@ -40,7 +40,8 @@ I wrote down and justified the tier assignments in `documentation/preregistratio
 | Refer everyone, test set | 0.497 | 1.000 | 0.000 | - |
 
 - All three models reached almost the same cross-validation F2 (0.578 to 0.580). Random Forest was selected by the pre-registered tie-break rule.
-- With only pre-lab information, the model performs about the same as a simple rule (refer if diabetes, hypertension, heart disease or age 60+). Its advantage is a graded score: the top-scored tenth of patients had CKD three times as often as average.
+- With only pre-lab information, the model performs about the same as a simple rule (refer if diabetes, hypertension, heart disease or age 60+). On F2 they are tied (test difference 0.003, 95% CI -0.017 to 0.024).
+- Its advantage is ranking. In a post-hoc analysis added after peer review (notebook 03, section 11), when only 300 of the 1,473 test participants could be tested, testing the highest scores first found 122 CKD cases, against 107 for a rule that counts the four risk factors (difference 15.2, 95% CI 3.9 to 25.3).
 - On UCI, the same three algorithms reach about 99% accuracy with all features, but with Tier 3 features only, F2 is no better than referring everyone (0.89 to 0.90) and specificity falls to 0.21 to 0.44.
 
 Full results are in the notebooks and in `paper/`.
@@ -103,7 +104,7 @@ Deployed app: ______________________ (Streamlit Community Cloud URL)
 
 ## Using the app
 
-Enter one patient in the form, or upload a CSV for several (a template can be downloaded in the app). The app shows a referral recommendation, the screening score against the referral threshold, and the share of training patients with a similar score who had CKD. The "Inputs and units" tab lists every field and its accepted range. Invalid or impossible inputs are rejected with a message instead of a prediction.
+Enter one patient in the form, or upload a CSV for several (a template can be downloaded in the app). For a CSV, you can enter the number of tests available, and only that many patients are referred, highest scores first. The app shows a referral recommendation, the screening score against the referral threshold, and the share of training patients with a similar score who had CKD. The "Inputs and units" tab lists every field and its accepted range. Invalid or impossible inputs are rejected with a message instead of a prediction.
 
 The full input format, application guide and troubleshooting notes are in `documentation/technical_documentation.md`.
 

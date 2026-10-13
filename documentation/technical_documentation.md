@@ -118,7 +118,7 @@ BMI is calculated from weight and height, and rejected if the result is outside 
    - **No referral indicated**: the score is below the threshold. This does not rule out CKD.
    - **Screening score**: the raw model output. It is not a probability, because the model was trained with balanced class weights, which push scores up.
    - **Similar patients with CKD**: the share of training patients with a similar score who had CKD.
-4. For many patients, use **Upload a CSV**, then download the results.
+4. For many patients, use **Upload a CSV**. If the clinic can only test some people, enter **Tests available** first: only that many patients are referred, highest scores first, and every row gets a **Priority** (1 = highest score). Then download the results.
 5. **Inputs and units** lists every field and its accepted range.
 
 ## 8. Model limitations
@@ -129,6 +129,7 @@ BMI is calculated from weight and height, and rejected if the result is outside 
 - People who were already diagnosed were excluded, so the model is only meant for people who have never been tested.
 - A "no referral" result does not rule out CKD. The model misses some patients, especially younger adults with reduced kidney function.
 - NHANES survey weights were not used, so results describe the sample, not the US population.
+- On F2 the model is tied with a simple risk-factor rule (test difference 0.003, 95% CI -0.017 to 0.024). Its advantage is ranking when tests are limited, and that is a post-hoc finding (notebook 03, section 11).
 
 ## 9. Troubleshooting
 
@@ -150,6 +151,6 @@ All screenshots are in `documentation/screenshots/`. They were taken from the ap
 |---|---|
 | app_01_refer_result.png | One patient: a valid input with a referral recommendation |
 | app_02_invalid_input.png | One patient: an out-of-range age and a diastolic pressure above systolic are rejected with a message |
-| app_03_csv_upload.png | Upload a CSV: row 5 is skipped with the reason, the other rows are screened. The About the model panel is open. |
-| app_04_csv_results_columns.png | Upload a CSV: the result columns of the same table |
+| app_03_csv_upload.png | Upload a CSV with 2 tests available: the two highest scores are referred, row 5 is skipped with the reason. The About the model panel is open. |
+| app_04_csv_results_columns.png | Upload a CSV: the result columns of the same table, including each row's priority |
 | app_05_inputs_and_units.png | Inputs and units tab |

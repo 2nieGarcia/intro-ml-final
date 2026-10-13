@@ -178,6 +178,19 @@ data problems found later, are recorded here.
 - 5 October 2026, app output: because `class_weight="balanced"` makes raw scores higher than the
   observed risk, the app shows the observed CKD rate among training patients with similar scores
   instead of the raw score as a percentage. This does not change the model or its evaluation.
+- 13 October 2026, peer review, post-hoc analyses (`notebooks/03_nhanes_modeling.ipynb`, section 11):
+  after the final test, a peer reviewer asked whether the model adds value over the risk-factor
+  rule. I added a comparison at the same number of referrals, a "cases found at each testing
+  capacity" curve, a points rule (number of the rule's four risk factors) as a ranking baseline,
+  bootstrap 95% confidence intervals (2,000 resamples), and recall by age on the test set. These
+  were not planned before the test set was used, so they are reported as post-hoc. The selected
+  model, its threshold and every pre-registered result stay the same.
+- 13 October 2026, app: the CSV upload can now refer the top K patients by score when the number
+  of available tests is entered, and every row gets a priority rank. The model and threshold are
+  unchanged; without a capacity the app behaves as before.
+- 13 October 2026, kill criteria: stop rules for a future local validation were added to the
+  paper's conclusion. They were written after seeing the test results, so they are not
+  pre-registered for this study, but they are fixed before any local validation is done.
 
 ## References
 

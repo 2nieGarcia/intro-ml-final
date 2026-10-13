@@ -74,3 +74,16 @@ def test_csv_reports_bad_rows_and_keeps_good_ones():
 def test_csv_missing_columns():
     with pytest.raises(ValueError):
         screening.validate_csv(pd.DataFrame([{"age": 50}]))
+
+
+def test_priority_ranks_highest_score_first():
+    refer, priority = screening.priority_and_capacity([0.2, 0.9, 0.5])
+    assert refer is None
+    assert list(priority) == [3, 1, 2]
+
+
+def test_capacity_refers_only_the_top_scores():
+    refer, _ = screening.priority_and_capacity([0.2, 0.9, 0.5, 0.7], capacity=2)
+    assert list(refer) == [False, True, False, True]
+    refer, _ = screening.priority_and_capacity([0.2, 0.9], capacity=5)  # more tests than people
+    assert list(refer) == [True, True]

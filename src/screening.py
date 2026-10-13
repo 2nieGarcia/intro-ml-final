@@ -166,6 +166,19 @@ def observed_rate(score, table):
     return table[-1]["observed_rate"]
 
 
+def priority_and_capacity(scores, capacity=None):
+    """Rank people by score (1 = highest) and, if a testing capacity is given, refer only the top ones.
+
+    Returns (refer, priority). Without a capacity, refer is None and the model's threshold decides.
+    """
+    scores = np.asarray(scores)
+    order = np.argsort(-scores, kind="stable")  # highest score first, ties keep their row order
+    priority = np.empty(len(scores), dtype=int)
+    priority[order] = np.arange(1, len(scores) + 1)
+    refer = None if capacity is None else priority <= capacity
+    return refer, priority
+
+
 def predict(model, card, features):
     """Score, referral decision and observed rate for each row of features."""
     scores = model.predict_proba(features)[:, 1]

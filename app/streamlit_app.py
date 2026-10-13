@@ -179,6 +179,11 @@ with csv_tab:
     st.download_button("Download CSV template", template.to_csv(index=False), "screening_template.csv", "text/csv",
                        icon=":material/download:")
 
+    capacity = st.number_input(
+        "Tests available (optional)", min_value=1, value=None, step=1, key="capacity",
+        help="If the clinic can only test some people, enter how many. The patients with the highest scores "
+             "are referred first. Leave empty to refer everyone at or above the referral threshold.")
+
     upload = st.file_uploader("Upload a CSV file", type="csv")
     if upload is not None:
         try:
@@ -193,12 +198,16 @@ with csv_tab:
                          icon=":material/error:")
             if len(features):
                 results = screening.predict(model, card, features)
+                # priority 1 = highest score; with a testing capacity, only the top ones are referred
+                capacity_refer, results["priority"] = screening.priority_and_capacity(results["score"], capacity)
+                if capacity_refer is not None:
+                    results["refer"] = capacity_refer
                 results["recommendation"] = results["refer"].map({True: "refer for kidney testing",
                                                                   False: "no referral"})
                 # results first, then what was uploaded, so the answer is visible without scrolling sideways
                 inputs = table.copy()
                 inputs.index = range(1, len(inputs) + 1)
-                output = results[["recommendation", "score", "observed_rate"]].join(inputs, how="right")
+                output = results[["recommendation", "priority", "score", "observed_rate"]].join(inputs, how="right")
                 output["recommendation"] = output["recommendation"].fillna("skipped, see the message above")
                 output["observed_rate"] = (output["observed_rate"] * 100).round()
                 output = output.rename(columns={"observed_rate": "similar_with_ckd_percent"})
@@ -208,8 +217,14 @@ with csv_tab:
                 left.metric("Rows screened", f"{screened} of {len(table)}")
                 middle.metric("Refer for testing", referred)
                 right.metric("No referral", screened - referred)
+                if capacity is None:
+                    st.caption(f"Referred: everyone with a score at or above the threshold ({card['threshold']:.2f}).")
+                else:
+                    st.caption(f"Referred: the {min(capacity, screened)} patients with the highest scores, "
+                               f"for {capacity} available tests. Priority 1 is the highest score.")
                 st.dataframe(output, column_config={
                     "recommendation": st.column_config.TextColumn("Recommendation"),
+                    "priority": st.column_config.NumberColumn("Priority", format="%d"),
                     "score": st.column_config.NumberColumn("Score", format="%.2f"),
                     "similar_with_ckd_percent": st.column_config.NumberColumn("Similar patients with CKD",
                                                                               format="%.0f%%"),
@@ -238,4 +253,5 @@ with help_tab:
 - **No referral indicated:** the score is below the threshold. This does not rule out CKD.
 - **Screening score:** the model's raw output between 0 and 1. It is higher than the true risk because the model was trained to pay extra attention to CKD cases, so it should not be read as a percentage.
 - **Similar patients with CKD:** among people in the training data with a similar score, the share who had CKD.
+- **Priority (CSV upload):** the order to test people in, 1 being the highest score. If you enter the number of tests available, only that many patients are referred, highest scores first. In my test data, ranking this way found more CKD cases than counting risk factors when about 20 to 35% of people could be tested.
 """)
