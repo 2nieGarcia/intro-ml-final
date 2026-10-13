@@ -40,3 +40,20 @@ def test_clear_winner_is_kept():
               "Gradient Boosting": folds([0.60, 0.61, 0.60, 0.61, 0.60])}
     name, _ = modeling.select_model(scores)
     assert name == "Gradient Boosting"
+
+
+def test_cases_caught_counts_ties_in_proportion():
+    # two people share the score 0.8 and one of them has CKD
+    score = np.array([0.9, 0.8, 0.8, 0.1])
+    y = np.array([1, 0, 1, 0])
+    assert modeling.cases_caught(score, y, 1) == pytest.approx(1)
+    assert modeling.cases_caught(score, y, 2) == pytest.approx(1.5)  # half of the tied pair
+    assert modeling.cases_caught(score, y, 3) == pytest.approx(2)
+    assert modeling.cases_caught(score, y, 4) == pytest.approx(2)
+
+
+def test_cases_caught_for_a_yes_no_rule():
+    # a yes/no rule cannot rank: picking 2 of its 4 positives catches half of their 2 cases
+    rule = np.array([1, 1, 1, 1, 0, 0])
+    y = np.array([1, 0, 1, 0, 1, 0])
+    assert modeling.cases_caught(rule, y, 2) == pytest.approx(1)

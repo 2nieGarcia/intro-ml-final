@@ -184,6 +184,25 @@ def select_model(fold_scores):
     return best, reason
 
 
+def cases_caught(score, y, k):
+    """Expected number of CKD cases among the k people with the highest scores.
+
+    People with the same score are tied. When the k-th place falls inside a tied group,
+    only part of that group can be referred, so it counts in proportion. This lets a
+    yes/no rule or a points rule be compared with the model at exactly k referrals.
+    """
+    groups = pd.DataFrame({"score": score, "case": y}).groupby("score")["case"].agg(["size", "sum"])
+    groups = groups.sort_index(ascending=False)  # highest scores first
+    caught, left = 0.0, k
+    for size, cases in zip(groups["size"], groups["sum"]):
+        take = min(size, left)
+        caught += cases * take / size
+        left -= take
+        if left == 0:
+            break
+    return caught
+
+
 def risk_table(proba, y, n_bins=10):
     """Observed CKD rate for groups of people with similar scores (equal-sized groups).
 
