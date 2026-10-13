@@ -1,4 +1,4 @@
-# Pre-lab CKD Risk Screening
+# Pre-lab CKD Early Detection using Random Forest
 
 Final project for my Machine Learning course. The goal is a screening model that estimates a person's risk of chronic kidney disease (CKD) using only information available before any lab test, and recommends whether they should be referred for kidney function testing.
 

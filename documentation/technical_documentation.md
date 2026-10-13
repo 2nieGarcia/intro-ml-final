@@ -1,4 +1,4 @@
-# Technical documentation: Pre-lab CKD Risk Screening
+# Technical documentation: Pre-lab CKD Early Detection using Random Forest
 
 Author: Antonio Garcia
 

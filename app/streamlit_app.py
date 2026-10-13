@@ -1,4 +1,4 @@
-"""Pre-lab CKD screening app.
+"""Pre-lab CKD early detection app (Random Forest).
 
 Run from the project root:
     streamlit run app/streamlit_app.py
@@ -48,7 +48,7 @@ STYLE = """
 </style>
 """
 
-st.set_page_config(page_title="Pre-lab CKD screening", page_icon=":material/nephrology:", layout="centered")
+st.set_page_config(page_title="Pre-lab CKD early detection", page_icon=":material/nephrology:", layout="centered")
 st.markdown(STYLE, unsafe_allow_html=True)
 
 
@@ -97,7 +97,7 @@ def show_result(result, notes):
         st.info(note, icon=":material/info:")
 
 
-st.title("Pre-lab CKD risk screening")
+st.title("Pre-lab CKD early detection using Random Forest")
 st.write(
     "For adults aged 20 and over who have **never been diagnosed with kidney disease**. It uses only "
     "information a health worker can collect without a laboratory: questions, a scale, a measuring tape "
