@@ -111,7 +111,7 @@ BMI is calculated from weight and height, and rejected if the result is outside 
 
 ## 7. Application guide
 
-1. Open the app (deployed URL in the README, or run it locally).
+1. Open the app at https://intro-ml-final-k5xt73im3xwcggoc8x3mws.streamlit.app/ (or run it locally).
 2. In **One patient**, fill in the fields and press **Screen this patient**. Waist and the yes/no questions may be left as "Don't know".
 3. Read the result:
    - **Refer for kidney testing**: the score is at or above the model's threshold.

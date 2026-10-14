@@ -100,7 +100,7 @@ Use `requirements.txt` instead if you only need the app.
 | Download the original data again | `python src/download_data.py` |
 | Reproduce the results | run the notebooks in order: 01, 02, 03 |
 
-Deployed app: ______________________ (Streamlit Community Cloud URL)
+Deployed app: https://intro-ml-final-k5xt73im3xwcggoc8x3mws.streamlit.app/
 
 ## Using the app
 
