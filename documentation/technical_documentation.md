@@ -1,10 +1,10 @@
-# Technical documentation: Pre-lab CKD Early Detection using Random Forest
+# Technical documentation: Beyond 99%: Diagnostic Leakage in CKD Prediction and a Pre-lab Screening Check
 
 Author: Antonio Garcia
 
 ## 1. Purpose
 
-This project is a screening tool for chronic kidney disease (CKD). It uses only information a health worker can collect without a laboratory (age, sex, weight, height, waist, blood pressure, and a few yes/no health questions) and recommends whether a person should be referred for kidney testing (serum creatinine and urine albumin-to-creatinine ratio). It is meant for adults aged 20 and over who have never been diagnosed with kidney disease. It does not diagnose CKD.
+This project has two parts. The main part is a feature-tier ablation on the UCI CKD dataset, which shows that the near-perfect accuracy reported for CKD models comes from features that are part of the diagnosis. The practical part, described in this document, is a screening tool for chronic kidney disease (CKD). It uses only information a health worker can collect without a laboratory (age, sex, weight, height, waist, blood pressure, and a few yes/no health questions) and recommends whether a person should be referred for kidney testing (serum creatinine and urine albumin-to-creatinine ratio). It is meant for adults aged 20 and over who have never been diagnosed with kidney disease. It does not diagnose CKD.
 
 The model is trained on NHANES 2017-March 2020 (US CDC). A second dataset, UCI Chronic Kidney Disease, is used to show how much of the near-perfect accuracy reported in the literature comes from features that are part of the diagnosis itself.
 

@@ -191,6 +191,10 @@ data problems found later, are recorded here.
 - 13 October 2026, kill criteria: stop rules for a future local validation were added to the
   paper's conclusion. They were written after seeing the test results, so they are not
   pre-registered for this study, but they are fixed before any local validation is done.
+- 15 October 2026, framing: after feedback from my instructor, the paper, app and documents now
+  lead with the UCI feature-tier ablation (question 2) and present the NHANES screening model
+  (question 1) as a practical check. The title and wording were changed so they do not suggest
+  that the model diagnoses CKD. The research questions, analyses and results are unchanged.
 
 ## References
 

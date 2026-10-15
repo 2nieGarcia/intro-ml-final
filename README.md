@@ -1,6 +1,6 @@
-# Pre-lab CKD Early Detection using Random Forest
+# Beyond 99%: Diagnostic Leakage in CKD Prediction and a Pre-lab Screening Check
 
-Final project for my Machine Learning course. The goal is a screening model that estimates a person's risk of chronic kidney disease (CKD) using only information available before any lab test, and recommends whether they should be referred for kidney function testing.
+Final project for my Machine Learning course. The main question is where the 99 to 100 percent accuracy reported for chronic kidney disease (CKD) prediction comes from. With a pre-registered feature-tier ablation on the UCI CKD dataset, I show that it comes from features that are part of the diagnosis. As a practical check, I built a screening model that uses only information available before any lab test and recommends whether a person should be referred for kidney testing. It does not diagnose CKD.
 
 ## Background
 
