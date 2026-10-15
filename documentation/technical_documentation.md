@@ -1,6 +1,6 @@
 # Technical documentation: Beyond 99%: Diagnostic Leakage in CKD Prediction and a Pre-lab Screening Check
 
-Author: Antonio Garcia
+Author: Antonio B. Garcia Jr.
 
 ## 1. Purpose
 
